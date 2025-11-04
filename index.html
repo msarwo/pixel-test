@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- IMG Tag Pixel Integration -->
-    <img src="https://www.facebook.com/tr?id=1310345967504467&ev=PageView&noscript=1" />
     <title>Facebook Pixel Add to Cart with Form</title>
     <!-- Meta Pixel Code -->
     <script>
@@ -55,16 +53,24 @@
                 return;
             }
 
-            // Trigger Facebook Pixel AddToCart event with user data
-            fbq('track', 'AddToCart', {
-                content_name: 'Test Product',
-                content_category: 'Example Category',
-                content_ids: ['1234'],
-                content_type: 'product',
-                value: 50.00,
-                currency: 'USD',
-                user_name: name
-            });
+            // Debug/log so you can see what's happening in DevTools
+                console.log('Attempting to send AddToCart pixel', { name, email });
+
+                if (typeof fbq === 'function') {
+                    fbq('track', 'AddToCart', {
+                        content_name: 'Test Product',
+                        content_category: 'Example Category',
+                        content_ids: ['1234'],
+                        content_type: 'product',
+                        value: 50.00,
+                        currency: 'USD',
+                        user_name: name,
+                        user_email: email
+                    });
+                    console.log('fbq AddToCart event called');
+                } else {
+                    console.warn('fbq is not defined. The pixel script may be blocked by an extension, CSP, or not loaded yet.');
+                }
         });
     </script>
 </body>
